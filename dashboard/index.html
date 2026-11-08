@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bauta · Dashboard</title>
+<meta name="color-scheme" content="dark">
+<style>
+  :root {
+    --bg: #06090f;
+    --panel: #0b111c;
+    --panel-2: #0f1726;
+    --line: rgba(212, 175, 105, 0.14);
+    --text: #e9e4d8;
+    --muted: #8a8f9c;
+    --gold: #d6ad62;
+    --gold-soft: rgba(214, 173, 98, 0.18);
+    --blue: #7aa7ff;
+    --blue-soft: rgba(122, 167, 255, 0.16);
+    --red: #ff6b7d;
+    --green: #7fd39b;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); }
+  body { min-height: 100vh; background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(214,173,98,0.07), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(122,167,255,0.06), transparent 60%),
+      var(--bg); }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 22px 24px 32px; }
+
+  header { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { width: 40px; height: 40px; filter: drop-shadow(0 0 10px rgba(214,173,98,0.35)); }
+  .brand h1 { font-family: var(--serif); font-weight: 500; letter-spacing: 0.32em; font-size: 22px; margin: 0; }
+  .brand small { display: block; color: var(--muted); letter-spacing: 0.04em; font-size: 12px; margin-top: 2px; }
+  .pills { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill { font-size: 12px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,0.02); color: var(--muted); display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+  .dot.live { background: var(--green); box-shadow: 0 0 0 0 rgba(127,211,155,0.6); animation: pulse 2s infinite; }
+  .dot.off { background: var(--red); }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(127,211,155,0.55); } 70% { box-shadow: 0 0 0 8px rgba(127,211,155,0); } 100% { box-shadow: 0 0 0 0 rgba(127,211,155,0); } }
+  .pill.demo { color: var(--gold); border-color: rgba(214,173,98,0.45); }
+
+  .tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin: 22px 0 16px; }
+  .tile { background: linear-gradient(180deg, var(--panel-2), var(--panel)); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px 16px; position: relative; overflow: hidden; }
+  .tile .label { font-size: 12px; color: var(--muted); letter-spacing: 0.02em; }
+  .tile .value { font-family: var(--serif); font-size: 34px; line-height: 1.1; margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .tile.hero .value { color: var(--gold); }
+  .tile .sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .tile.flash { animation: flash 0.9s ease-out; }
+  @keyframes flash { 0% { border-color: rgba(214,173,98,0.8); box-shadow: 0 0 24px rgba(214,173,98,0.25); } 100% { border-color: var(--line); box-shadow: none; } }
+
+  .main { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 12px; }
+  .stage { position: relative; background: #05080e; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; min-height: 460px; }
+  canvas { display: block; width: 100%; height: 100%; position: absolute; inset: 0; }
+  .stage .legend { position: absolute; left: 16px; bottom: 14px; display: flex; gap: 14px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+  .empty { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; color: var(--muted); font-size: 13px; pointer-events: none; transition: opacity 0.6s; max-width: 90%; }
+  .empty code { display: inline-block; margin-top: 10px; font-family: var(--mono); font-size: 12px; color: var(--gold); background: rgba(214,173,98,0.08); border: 1px solid rgba(214,173,98,0.25); padding: 7px 10px; border-radius: 8px; }
+  .empty.hidden { opacity: 0; }
+
+  .feed { background: linear-gradient(180deg, var(--panel-2), var(--panel)); border: 1px solid var(--line); border-radius: 16px; display: flex; flex-direction: column; min-height: 460px; max-height: 560px; }
+  .feed h2 { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0; padding: 14px 16px 10px; border-bottom: 1px solid var(--line); }
+  .feed ol { list-style: none; margin: 0; padding: 6px 0; overflow-y: auto; flex: 1; }
+  .feed li { padding: 9px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 12.5px; animation: slide 0.45s ease-out; }
+  @keyframes slide { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  .row1 { display: flex; align-items: center; gap: 8px; }
+  .time { color: var(--muted); font-family: var(--mono); font-size: 11px; }
+  .model { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+  .chip { font-size: 10.5px; padding: 2px 7px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+  .chip.venice { color: var(--gold); border-color: rgba(214,173,98,0.45); background: var(--gold-soft); }
+  .chip.other { color: var(--blue); border-color: rgba(122,167,255,0.45); background: var(--blue-soft); }
+  .row2 { display: flex; gap: 10px; margin-top: 4px; color: var(--muted); font-size: 11.5px; flex-wrap: wrap; }
+  .masked { color: var(--red); }
+  .fb { color: var(--gold); }
+  .ok { color: var(--green); }
+  .bad { color: var(--red); }
+  .feed .none { color: var(--muted); font-size: 12.5px; padding: 18px 16px; }
+
+  footer { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: space-between; color: var(--muted); font-size: 12px; }
+  footer b { color: var(--text); font-weight: 500; }
+
+  @media (max-width: 1060px) {
+    .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .main { grid-template-columns: 1fr; }
+    .feed { max-height: 420px; min-height: 0; }
+  }
+  @media (max-width: 620px) {
+    .wrap { padding: 16px; }
+    .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tile .value { font-size: 28px; }
+    .stage { min-height: 360px; }
+    .pills { margin-left: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 64 64" fill="none" stroke="#d6ad62" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+        <path d="M32 5C18.5 5 11 14 11 26.5c0 7.5 1.8 13 4.8 17.8L20.5 58c4.6 2 18.4 2 23 0l4.7-13.7C51.2 39.5 53 34 53 26.5 53 14 45.5 5 32 5Z" fill="rgba(214,173,98,0.06)"/>
+        <path d="M17.5 26.5c2.6-3.6 8.6-3.6 11 0-2.4 3-8.4 3-11 0Z"/>
+        <path d="M35.5 26.5c2.4-3.6 8.4-3.6 11 0-2.6 3-8.6 3-11 0Z"/>
+        <path d="M32 23v14l-3.2 3.2"/>
+        <path d="M18.5 44.5 32 41.5l13.5 3"/>
+        <path d="M14 18c5-6.5 31-6.5 36 0" opacity="0.55"/>
+      </svg>
+      <div><h1>BAUTA</h1><small>your agent wears a mask</small></div>
+    </div>
+    <div class="pills">
+      <span class="pill"><span class="dot" id="liveDot"></span><span id="liveText">connecting…</span></span>
+      <span class="pill" id="modePill">mode: …</span>
+      <span class="pill" id="venicePill">venice: …</span>
+      <span class="pill demo" id="demoPill" hidden>demo data</span>
+    </div>
+  </header>
+
+  <section class="tiles" aria-label="Totals since Bauta started">
+    <div class="tile hero" id="t-secrets"><div class="label">Secrets kept on this machine</div><div class="value" data-v="0">0</div><div class="sub">unique keys, passwords, seed phrases</div></div>
+    <div class="tile" id="t-pii"><div class="label">Personal details masked</div><div class="value" data-v="0">0</div><div class="sub">emails, phones, names you listed</div></div>
+    <div class="tile" id="t-fallbacks"><div class="label">Times Bauta kept you working</div><div class="value" data-v="0">0</div><div class="sub">limits hit → continued on Venice</div></div>
+    <div class="tile" id="t-private"><div class="label">Tokens on private models</div><div class="value" data-v="0">0</div><div class="sub">processed on Venice</div></div>
+    <div class="tile" id="t-requests"><div class="label">Requests</div><div class="value" data-v="0">0</div><div class="sub" id="uptime">since start</div></div>
+  </section>
+
+  <section class="main">
+    <div class="stage" id="stage">
+      <canvas id="canal" aria-label="Live view: each request is a gondola traveling from your agent to a model provider"></canvas>
+      <div class="empty" id="empty">Waiting for your agent…<br><code>$env:ANTHROPIC_BASE_URL="http://127.0.0.1:8787"; claude</code></div>
+      <div class="legend">
+        <span><i style="background:var(--gold)"></i>private · Venice</span>
+        <span><i style="background:var(--blue)"></i>masked · Anthropic / OpenAI</span>
+        <span><i style="background:var(--red)"></i>secret caught at the mask gate</span>
+      </div>
+    </div>
+    <aside class="feed">
+      <h2>Live requests <span style="text-transform:none;letter-spacing:0;font-weight:400">· metadata only, never content</span></h2>
+      <ol id="feed"><li class="none" id="feedNone">No requests yet.</li></ol>
+    </aside>
+  </section>
+
+  <footer>
+    <span><b>Runs only on this computer.</b> Nothing is stored. No telemetry. The secret vault lives in memory and disappears when Bauta stops.</span>
+    <span id="ver">Bauta</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const demo = new URLSearchParams(location.search).has('demo');
+  let stats = null;
+
+  // ---------- numbers ----------
+  const fmt = (n) => n >= 1e9 ? (n / 1e9).toFixed(1) + 'B' : n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e4 ? (n / 1e3).toFixed(1) + 'K' : String(Math.round(n));
+  function setTile(id, v) {
+    const tile = $(id), el = tile.querySelector('.value');
+    const from = Number(el.dataset.v) || 0;
+    if (v === from) return;
+    el.dataset.v = v;
+    if (v > from) { tile.classList.remove('flash'); void tile.offsetWidth; tile.classList.add('flash'); }
+    const t0 = performance.now(), dur = 700;
+    const step = (t) => {
+      const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = fmt(from + (v - from) * e);
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  function renderStats(s) {
+    stats = s;
+    setTile('#t-secrets', s.uniqueSecrets);
+    setTile('#t-pii', s.uniquePii);
+    setTile('#t-fallbacks', s.fallbacks);
+    setTile('#t-private', s.privateTokens);
+    setTile('#t-requests', s.requests);
+    $('#ver').textContent = 'Bauta v' + s.version;
+  }
+  setInterval(() => {
+    if (!stats) return;
+    const m = Math.floor((Date.now() - stats.startedAt) / 60000);
+    $('#uptime').textContent = m < 60 ? `running ${m} min` : `running ${Math.floor(m / 60)} h ${m % 60} min`;
+  }, 5000);
+
+  // ---------- feed ----------
+  function addFeed(ev) {
+    $('#feedNone')?.remove();
+    const li = document.createElement('li');
+    const t = new Date(ev.time).toTimeString().slice(0, 8);
+    const isV = ev.target === 'venice';
+    const masks = [];
+    if (ev.secrets) masks.push(`${ev.secrets} secret${ev.secrets > 1 ? 's' : ''}`);
+    if (ev.pii) masks.push(`${ev.pii} personal`);
+    const st = ev.status || 0;
+    li.innerHTML = `<div class="row1"><span class="time"></span><span class="model"></span><span class="chip ${isV ? 'venice' : 'other'}"></span></div>
+      <div class="row2">${masks.length ? `<span class="masked">◆ masked ${masks.join(', ')}</span>` : ''}${ev.fallback ? `<span class="fb">↺ fallback · ${ev.reason || ''}</span>` : (ev.reason ? `<span class="fb">${ev.reason}</span>` : '')}<span class="${st >= 200 && st < 300 ? 'ok' : 'bad'}">${st || '–'}</span><span>${((ev.ms || 0) / 1000).toFixed(1)}s</span>${(ev.inTok || ev.outTok) ? `<span>${fmt((ev.inTok || 0) + (ev.outTok || 0))} tok</span>` : ''}</div>`;
+    li.querySelector('.time').textContent = t;
+    li.querySelector('.model').textContent = ev.model || '?';
+    li.querySelector('.chip').textContent = isV ? 'venice · private' : ev.target;
+    const feed = $('#feed');
+    feed.prepend(li);
+    while (feed.children.length > 40) feed.lastChild.remove();
+  }
+
+  // ---------- canal scene ----------
+  const canvas = $('#canal'), ctx = canvas.getContext('2d');
+  let W = 0, H = 0, dpr = 1;
+  function resize() {
+    const r = $('#stage').getBoundingClientRect();
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = r.width; H = r.height;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    buildRoutes();
+  }
+  const P = (x, y) => ({ x: x * W, y: y * H });
+  let routes = {}, GATE_T = 0.42;
+  function cubic(p0, p1, p2, p3, n) {
+    const pts = [];
+    for (let i = 0; i <= n; i++) {
+      const t = i / n, u = 1 - t;
+      pts.push({ x: u*u*u*p0.x + 3*u*u*t*p1.x + 3*u*t*t*p2.x + t*t*t*p3.x, y: u*u*u*p0.y + 3*u*u*t*p1.y + 3*u*t*t*p2.y + t*t*t*p3.y });
+    }
+    return pts;
+  }
+  function measure(pts) {
+    let len = 0; const acc = [0];
+    for (let i = 1; i < pts.length; i++) { len += Math.hypot(pts[i].x - pts[i-1].x, pts[i].y - pts[i-1].y); acc.push(len); }
+    return { pts, acc, len };
+  }
+  let S, G, J, V, A, F;
+  function buildRoutes() {
+    S = P(0.07, 0.55); G = P(0.36, 0.55); J = P(0.52, 0.55); V = P(0.92, 0.24); A = P(0.92, 0.84); F = P(0.70, 0.74);
+    const trunk = cubic(S, P(0.2, 0.55), P(0.4, 0.55), J, 40);
+    const toV = cubic(J, P(0.68, 0.55), P(0.76, 0.24), V, 50);
+    const toA = cubic(J, P(0.68, 0.55), P(0.76, 0.84), A, 50);
+    const toF = cubic(J, P(0.62, 0.58), P(0.66, 0.72), F, 30);
+    const fToV = cubic(F, P(0.76, 0.76), P(0.78, 0.30), V, 50);
+    routes.venice = measure(trunk.concat(toV.slice(1)));
+    routes.other = measure(trunk.concat(toA.slice(1)));
+    routes.fallback = measure(trunk.concat(toF.slice(1), fToV.slice(1)));
+    GATE_T = (G.x - S.x) / (routes.venice.len || 1);
+  }
+  function at(route, t) {
+    const d = t * route.len, a = route.acc, p = route.pts;
+    let i = 1; while (i < a.length - 1 && a[i] < d) i++;
+    const seg = a[i] - a[i-1] || 1, k = (d - a[i-1]) / seg;
+    const x = p[i-1].x + (p[i].x - p[i-1].x) * k, y = p[i-1].y + (p[i].y - p[i-1].y) * k;
+    return { x, y, ang: Math.atan2(p[i].y - p[i-1].y, p[i].x - p[i-1].x) };
+  }
+
+  const boats = [], sparks = [], labels = [];
+  const harborCount = { venice: 0, other: 0 };
+  const glow = { venice: 0, other: 0, gate: 0, agent: 0 };
+  function spawn(ev) {
+    const target = ev.target === 'venice' ? 'venice' : 'other';
+    const route = ev.fallback ? routes.fallback : routes[target];
+    boats.push({ ev, route, target, t: 0, speed: 0.00042 + Math.random() * 0.00012, trail: [], gated: false, masked: (ev.secrets || 0) + (ev.pii || 0) });
+    glow.agent = 1;
+    $('#empty').classList.add('hidden');
+  }
+
+  function drawBoat(x, y, ang, color) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(ang);
+    ctx.shadowColor = color; ctx.shadowBlur = 16;
+    ctx.beginPath();
+    ctx.moveTo(-15, -1); ctx.quadraticCurveTo(-2, 5, 13, 0); ctx.quadraticCurveTo(16, -4, 17, -8);
+    ctx.quadraticCurveTo(14, -2, 9, -2); ctx.lineTo(-11, -2); ctx.quadraticCurveTo(-15, -5, -16, -8);
+    ctx.quadraticCurveTo(-17, -3, -15, -1); ctx.closePath();
+    ctx.fillStyle = '#0d0f14'; ctx.fill();
+    ctx.strokeStyle = color; ctx.lineWidth = 1.3; ctx.stroke();
+    ctx.shadowBlur = 20; ctx.fillStyle = color;
+    ctx.beginPath(); ctx.arc(-2, -6, 2.3, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  }
+  function lantern(p, color, k, label, sub, strength = 1) {
+    const r = 9 + k * 6;
+    const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 54 + k * 22);
+    g.addColorStop(0, color.replace('1)', `${(0.22 + k * 0.3) * strength})`)); g.addColorStop(1, color.replace('1)', '0)'));
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, 54 + k * 22, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = color; ctx.beginPath(); ctx.arc(p.x, p.y, r * 0.5, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#e9e4d8'; ctx.font = '600 12px ui-sans-serif, system-ui, Segoe UI, sans-serif';
+    ctx.textAlign = p.x > W / 2 ? 'right' : 'left';
+    const lx = p.x > W / 2 ? p.x - 18 : p.x + 18;
+    ctx.fillText(label, lx, p.y - 4);
+    ctx.fillStyle = '#8a8f9c'; ctx.font = '11px ui-sans-serif, system-ui, Segoe UI, sans-serif';
+    ctx.fillText(sub, lx, p.y + 12);
+  }
+  let shimmer = [];
+  function frame(now) {
+    ctx.clearRect(0, 0, W, H);
+    const bg = ctx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, '#060a12'); bg.addColorStop(1, '#081022');
+    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+
+    // shimmering water
+    if (shimmer.length < 70) shimmer.push({ x: Math.random() * W, y: Math.random() * H, w: 10 + Math.random() * 40, a: 0, life: 0, max: 2000 + Math.random() * 3000 });
+    for (const s of shimmer) {
+      s.life += 16; s.x += 0.06;
+      const k = s.life / s.max; s.a = Math.sin(Math.PI * Math.min(1, k)) * 0.07;
+      ctx.strokeStyle = `rgba(160,190,255,${s.a})`; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(s.x + s.w, s.y); ctx.stroke();
+    }
+    shimmer = shimmer.filter((s) => s.life < s.max);
+
+    // canals
+    for (const [name, route] of Object.entries(routes)) {
+      if (name === 'fallback') continue;
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.strokeStyle = 'rgba(40,60,100,0.28)'; ctx.lineWidth = 30;
+      ctx.beginPath(); route.pts.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y))); ctx.stroke();
+      ctx.strokeStyle = name === 'venice' ? 'rgba(214,173,98,0.32)' : 'rgba(122,167,255,0.28)'; ctx.lineWidth = 1.2;
+      ctx.setLineDash([2, 9]); ctx.lineDashOffset = -now / 60;
+      ctx.beginPath(); route.pts.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y))); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // mask gate (an arch with the bauta)
+    glow.gate *= 0.95;
+    ctx.save(); ctx.translate(G.x, G.y);
+    ctx.strokeStyle = `rgba(214,173,98,${0.45 + glow.gate * 0.5})`; ctx.lineWidth = 1.6;
+    ctx.shadowColor = '#ff6b7d'; ctx.shadowBlur = glow.gate * 30;
+    ctx.beginPath(); ctx.moveTo(-18, 22); ctx.lineTo(-18, -8); ctx.quadraticCurveTo(0, -34, 18, -8); ctx.lineTo(18, 22); ctx.stroke();
+    ctx.shadowBlur = 0;
+    ctx.beginPath(); ctx.moveTo(0, -18); ctx.bezierCurveTo(-8, -18, -10, -12, -10, -6); ctx.bezierCurveTo(-10, -1, -8, 3, -5, 6); ctx.lineTo(5, 6); ctx.bezierCurveTo(8, 3, 10, -1, 10, -6); ctx.bezierCurveTo(10, -12, 8, -18, 0, -18); ctx.stroke();
+    ctx.fillStyle = '#8a8f9c'; ctx.font = '11px ui-sans-serif, system-ui, Segoe UI, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('mask gate', 0, 38);
+    ctx.restore();
+
+    glow.agent *= 0.94; glow.venice *= 0.96; glow.other *= 0.96;
+    lantern(S, 'rgba(233,228,216,1)', glow.agent, 'Your agent', 'Claude Code · Cline · …', 0.45);
+    lantern(V, 'rgba(214,173,98,1)', glow.venice, 'Venice · private', `${harborCount.venice} arrived`);
+    lantern(A, 'rgba(122,167,255,1)', glow.other, 'Anthropic / OpenAI', `${harborCount.other} arrived · masked`);
+
+    // boats
+    for (const b of boats) {
+      b.t = Math.min(1, b.t + b.speed * 16);
+      const p = at(b.route, b.t);
+      b.trail.push({ x: p.x, y: p.y }); if (b.trail.length > 26) b.trail.shift();
+      const color = b.target === 'venice' ? '#d6ad62' : '#7aa7ff';
+      for (let i = 1; i < b.trail.length; i++) {
+        ctx.strokeStyle = (b.target === 'venice' ? 'rgba(214,173,98,' : 'rgba(122,167,255,') + (i / b.trail.length) * 0.35 + ')';
+        ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(b.trail[i-1].x, b.trail[i-1].y); ctx.lineTo(b.trail[i].x, b.trail[i].y); ctx.stroke();
+      }
+      if (!b.gated && b.t >= GATE_T) {
+        b.gated = true;
+        if (b.masked) {
+          glow.gate = 1;
+          const n = Math.min(40, 10 + b.masked * 6);
+          for (let i = 0; i < n; i++) { const a = Math.random() * Math.PI * 2, s = 0.6 + Math.random() * 2.2; sparks.push({ x: p.x, y: p.y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 0.6, life: 0, max: 700 + Math.random() * 600 }); }
+          labels.push({ x: p.x, y: p.y - 26, text: `◆ ${b.masked} masked`, life: 0, max: 1600 });
+        }
+        if (b.ev.fallback && !labels.some((l) => l.gold)) labels.push({ x: J.x + 70, y: J.y + 44, text: `↺ ${b.ev.reason || 'limit hit'} → kept working on Venice`, life: 0, max: 2400, gold: true });
+      }
+      drawBoat(p.x, p.y, p.ang, color);
+      if (b.t >= 1 && !b.done) { b.done = true; harborCount[b.target]++; glow[b.target] = 1; }
+    }
+    for (let i = boats.length - 1; i >= 0; i--) if (boats[i].done) boats.splice(i, 1);
+
+    for (const s of sparks) {
+      s.life += 16; s.x += s.vx; s.y += s.vy; s.vy += 0.03; s.vx *= 0.985;
+      const a = 1 - s.life / s.max;
+      ctx.fillStyle = `rgba(255,107,125,${Math.max(0, a)})`;
+      ctx.beginPath(); ctx.arc(s.x, s.y, 1.6, 0, Math.PI * 2); ctx.fill();
+    }
+    for (let i = sparks.length - 1; i >= 0; i--) if (sparks[i].life > sparks[i].max) sparks.splice(i, 1);
+    for (const l of labels) {
+      l.life += 16; l.y -= 0.25;
+      const a = Math.sin(Math.PI * Math.min(1, l.life / l.max));
+      ctx.fillStyle = l.gold ? `rgba(214,173,98,${a})` : `rgba(255,140,155,${a})`;
+      ctx.font = '600 12px ui-sans-serif, system-ui, Segoe UI, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText(l.text, l.x, l.y);
+    }
+    for (let i = labels.length - 1; i >= 0; i--) if (labels[i].life > labels[i].max) labels.splice(i, 1);
+
+    requestAnimationFrame(frame);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+  requestAnimationFrame(frame);
+
+  // ---------- data ----------
+  function setMeta(h) {
+    $('#modePill').textContent = 'mode: ' + (h.mode === 'private' ? 'private' : 'auto');
+    $('#venicePill').innerHTML = h.venice ? `venice: <span style="color:var(--green)">connected</span> · ${h.veniceModel}` : 'venice: <span style="color:var(--red)">no key</span>';
+  }
+  function handleRequest(ev, s) { renderStats(s); addFeed(ev); spawn(ev); }
+
+  if (demo) {
+    $('#demoPill').hidden = false;
+    setMeta({ mode: 'auto', venice: true, veniceModel: 'deepseek-v4-1-flash' });
+    $('#liveDot').classList.add('live'); $('#liveText').textContent = 'live';
+    const s = { version: '0.1.0', startedAt: Date.now() - 41 * 60000, requests: 0, byTarget: {}, fallbacks: 0, uniqueSecrets: 0, uniquePii: 0, privateTokens: 0, totalTokens: 0 };
+    renderStats(s);
+    let n = 0, limited = false;
+    const tick = () => {
+      n++;
+      limited = (n % 26) >= 9 && (n % 26) < 21; // the limit hits, then resets
+      const secrets = Math.random() < 0.28 ? 1 + Math.floor(Math.random() * 3) : 0;
+      const pii = Math.random() < 0.15 ? 1 : 0;
+      const fallback = limited;
+      const target = limited ? 'venice' : (Math.random() < 0.2 ? 'venice' : 'anthropic');
+      const tok = 2000 + Math.floor(Math.random() * 30000);
+      const ev = { time: Date.now(), model: target === 'venice' && !fallback ? 'kimi-k3-1-pro' : 'claude-sonnet-4-6', target, fallback, reason: fallback ? 'anthropic 429' : null, secrets, pii, status: 200, ms: 800 + Math.random() * 4000, inTok: tok, outTok: Math.floor(tok / 8) };
+      if (fallback) ev.model = 'claude-sonnet-4-6 → deepseek-v4-1-flash';
+      s.requests++; if (fallback) s.fallbacks++;
+      if (secrets && Math.random() < 0.6) s.uniqueSecrets += secrets;
+      if (pii) s.uniquePii += pii;
+      if (target === 'venice') s.privateTokens += ev.inTok + ev.outTok;
+      handleRequest(ev, { ...s });
+      setTimeout(tick, 900 + Math.random() * 1600);
+    };
+    setTimeout(tick, 600);
+    return;
+  }
+
+  fetch('/_bauta/health').then((r) => r.json()).then(setMeta).catch(() => {});
+  const es = new EventSource('/_bauta/events');
+  es.addEventListener('open', () => { $('#liveDot').className = 'dot live'; $('#liveText').textContent = 'live'; });
+  es.addEventListener('error', () => { $('#liveDot').className = 'dot off'; $('#liveText').textContent = 'reconnecting…'; });
+  es.addEventListener('hello', (e) => {
+    const s = JSON.parse(e.data);
+    renderStats(s);
+    if (s.requests) $('#empty').classList.add('hidden');
+    s.recent.slice().reverse().forEach(addFeed);
+  });
+  es.addEventListener('request', (e) => { const { ev, stats } = JSON.parse(e.data); handleRequest(ev, stats); });
+})();
+</script>
+</body>
+</html>

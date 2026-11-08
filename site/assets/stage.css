@@ -1,0 +1,140 @@
+/* Hero stage. The layers are built by stage.js; until then the box shows a calm gradient. */
+
+[data-stage] {
+  --_fx: var(--stage-focus-x, 72%);
+  overflow: hidden;
+  isolation: isolate;
+  contain: paint;
+  background-color: #0b0e14;
+  background-image:
+    radial-gradient(34% 46% at var(--_fx) 52%, rgba(255, 181, 71, .09), rgba(255, 181, 71, 0) 70%),
+    radial-gradient(50% 55% at calc(var(--_fx) - 4%) 8%, rgba(159, 180, 216, .10), rgba(159, 180, 216, 0) 70%),
+    linear-gradient(180deg, #080b11 0%, #0d121d 58%, #06080c 100%);
+}
+
+@media (max-width: 819.98px) {
+  [data-stage] { --_fx: var(--stage-focus-x, 50%); }
+}
+
+.stage__scene,
+.stage__layer,
+.stage__shade,
+.stage__grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.stage__scene { overflow: hidden; }
+.stage__layer { will-change: transform; }
+.stage__scene canvas { position: absolute; display: block; }
+
+.stage__haze {
+  mix-blend-mode: screen;
+  animation: stage-haze 48s ease-in-out infinite alternate;
+}
+
+.stage__spill,
+.stage__cone,
+.stage__dust { mix-blend-mode: screen; }
+
+.stage__crt {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 9% / 12%;
+  background: #120b04;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .7);
+}
+
+.stage__crt canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.stage__crt-roll,
+.stage__crt-glass {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.stage__crt-roll {
+  top: -45%;
+  bottom: auto;
+  height: 45%;
+  background: linear-gradient(180deg, rgba(255, 190, 100, 0), rgba(255, 190, 100, .05) 55%, rgba(255, 190, 100, 0));
+  mix-blend-mode: screen;
+  animation: stage-roll 9s linear infinite;
+}
+
+.stage__crt-glass {
+  background:
+    linear-gradient(158deg, rgba(220, 232, 255, .10) 0%, rgba(220, 232, 255, .02) 28%, rgba(220, 232, 255, 0) 46%),
+    radial-gradient(18% 34% at 84% 18%, rgba(170, 192, 230, .07), rgba(170, 192, 230, 0) 70%),
+    radial-gradient(120% 120% at 50% 48%, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, .55) 84%, rgba(0, 0, 0, .85) 100%);
+  box-shadow: inset 0 0 14px 4px rgba(0, 0, 0, .7), inset 0 -2px 6px rgba(255, 170, 70, .08);
+}
+
+/* Keeps text on the left readable and fades the stage into the page. */
+.stage__shade {
+  background:
+    linear-gradient(0deg, #0b0e14 0%, rgba(11, 14, 20, .7) 7%, rgba(11, 14, 20, 0) 22%),
+    linear-gradient(180deg, rgba(11, 14, 20, .55) 0%, rgba(11, 14, 20, 0) 15%),
+    radial-gradient(120% 95% at 60% 45%, rgba(5, 7, 10, 0) 55%, rgba(5, 7, 10, .55) 100%);
+}
+
+.stage--side .stage__shade {
+  background:
+    linear-gradient(90deg, rgba(11, 14, 20, .95) 0%, rgba(11, 14, 20, .9) 30%, rgba(11, 14, 20, .58) 45%, rgba(11, 14, 20, 0) 62%),
+    linear-gradient(0deg, #0b0e14 0%, rgba(11, 14, 20, .7) 7%, rgba(11, 14, 20, 0) 22%),
+    linear-gradient(180deg, rgba(11, 14, 20, .55) 0%, rgba(11, 14, 20, 0) 15%),
+    radial-gradient(120% 95% at 70% 45%, rgba(5, 7, 10, 0) 55%, rgba(5, 7, 10, .5) 100%);
+}
+
+.stage__grain {
+  opacity: .055;
+  mix-blend-mode: overlay;
+  background-size: 140px 140px;
+}
+
+.stage__glint {
+  --g: 12px;
+  position: absolute;
+  width: var(--g);
+  height: var(--g);
+  margin: calc(var(--g) / -2) 0 0 calc(var(--g) / -2);
+  opacity: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255, 246, 220, .95) 0, rgba(255, 214, 140, .5) 18%, rgba(255, 214, 140, 0) 52%),
+    linear-gradient(90deg, rgba(255, 236, 200, 0) 0, rgba(255, 236, 200, .8) 50%, rgba(255, 236, 200, 0) 100%) center / 100% 1px no-repeat,
+    linear-gradient(0deg, rgba(255, 236, 200, 0) 0, rgba(255, 236, 200, .8) 50%, rgba(255, 236, 200, 0) 100%) center / 1px 100% no-repeat;
+}
+
+.stage__glint.is-on { animation: stage-glint 1.1s ease-out; }
+
+[data-stage].is-paused .stage__scene * { animation-play-state: paused; }
+
+@keyframes stage-haze {
+  from { transform: translate3d(-2.5%, 0, 0); }
+  to { transform: translate3d(2.5%, -1%, 0); }
+}
+
+@keyframes stage-roll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, 330%, 0); }
+}
+
+@keyframes stage-glint {
+  0% { opacity: 0; transform: scale(.3) rotate(0deg); }
+  35% { opacity: 1; transform: scale(1) rotate(20deg); }
+  100% { opacity: 0; transform: scale(.5) rotate(45deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage__haze,
+  .stage__crt-roll,
+  .stage__glint.is-on { animation: none; }
+}

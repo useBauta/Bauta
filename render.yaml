@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: bauta-site
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: ./site
+    domains:
+      - usebauta.com
+      - www.usebauta.com
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: no-referrer

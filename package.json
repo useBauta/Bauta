@@ -1,0 +1,36 @@
+{
+  "name": "bauta",
+  "version": "0.1.0",
+  "description": "Your agent wears a mask. A local privacy router for AI agents: masks secrets before they leave your machine, and keeps your agent working on private models via Venice when your limits run out.",
+  "type": "module",
+  "bin": {
+    "bauta": "bin/bauta.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "dashboard",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "start": "node bin/bauta.js start",
+    "test": "node --test test/"
+  },
+  "keywords": [
+    "ai",
+    "agents",
+    "privacy",
+    "proxy",
+    "claude-code",
+    "codex",
+    "venice",
+    "secrets",
+    "redaction",
+    "llm"
+  ],
+  "license": "MIT"
+}

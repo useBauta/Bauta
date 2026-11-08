@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bauta · Your agent wears a mask</title>
+<meta name="description" content="Bauta is a small open-source proxy that runs on your computer, between your coding agent and the model. Your keys stay on your machine, and your agent keeps going when your provider says you’ve hit the limit.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b0e14">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bauta">
+<meta property="og:title" content="Bauta · Your agent wears a mask">
+<meta property="og:description" content="A small open-source proxy on your computer. Your keys stay on your machine, and your agent keeps going when the limit hits.">
+<meta property="og:image" content="https://usebauta.com/assets/og.png">
+<link rel="canonical" href="https://usebauta.com/">
+<meta property="og:url" content="https://usebauta.com/">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Bauta wordmark beside an amber terminal that shows secrets turning into placeholders.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/mask.svg" type="image/svg+xml">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="assets/stage.css">
+<link rel="stylesheet" href="assets/demo.css">
+<script>
+  // Motion is opt-in: only when scripts run and the reader has not asked for less.
+  (function (c) {
+    c.add('js');
+    if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) c.add('motion');
+  })(document.documentElement.classList);
+</script>
+<script src="assets/site.js" defer></script>
+<script src="assets/stage.js" defer></script>
+<script src="assets/bauta-scanner.js" defer></script>
+<script src="assets/demo.js" defer></script>
+</head>
+<body>
+<svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <symbol id="i-ext" viewBox="0 0 12 12"><path d="M3 9l6-6M4.2 3H9v4.8"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/><path d="M10.5 3.5v-.5a1.5 1.5 0 0 0-1.5-1.5H4A1.5 1.5 0 0 0 2.5 3v5A1.5 1.5 0 0 0 4 9.5h.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 16 16"><path d="M3.5 8.4l3 3 6-6.4"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="top__in">
+    <a class="brand" href="#top" aria-label="Bauta, back to top"><svg class="wm wm--head" viewBox="0 0 280 90" aria-hidden="true" focusable="false"><g class="wm-lit" fill="currentColor"><g style="--c:0"><circle cx="5" cy="5" r="4.15"/><circle cx="5" cy="15" r="4.15"/><circle cx="5" cy="25" r="4.15"/><circle cx="5" cy="35" r="4.15"/><circle cx="5" cy="45" r="4.15"/><circle cx="5" cy="55" r="4.15"/><circle cx="5" cy="65" r="4.15"/><circle cx="5" cy="75" r="4.15"/><circle cx="5" cy="85" r="4.15"/></g><g style="--c:1"><circle cx="15" cy="35" r="4.15"/><circle cx="15" cy="85" r="4.15"/></g><g style="--c:2"><circle cx="25" cy="35" r="4.15"/><circle cx="25" cy="85" r="4.15"/></g><g style="--c:3"><circle cx="35" cy="35" r="4.15"/><circle cx="35" cy="85" r="4.15"/></g><g style="--c:4"><circle cx="45" cy="45" r="4.15"/><circle cx="45" cy="55" r="4.15"/><circle cx="45" cy="65" r="4.15"/><circle cx="45" cy="75" r="4.15"/></g><g style="--c:6"><circle cx="65" cy="45" r="4.15"/><circle cx="65" cy="55" r="4.15"/><circle cx="65" cy="65" r="4.15"/><circle cx="65" cy="75" r="4.15"/></g><g style="--c:7"><circle cx="75" cy="35" r="4.15"/><circle cx="75" cy="85" r="4.15"/></g><g style="--c:8"><circle cx="85" cy="35" r="4.15"/><circle cx="85" cy="85" r="4.15"/></g><g style="--c:9"><circle cx="95" cy="35" r="4.15"/><circle cx="95" cy="85" r="4.15"/></g><g style="--c:10"><circle cx="105" cy="35" r="4.15"/><circle cx="105" cy="45" r="4.15"/><circle cx="105" cy="55" r="4.15"/><circle cx="105" cy="65" r="4.15"/><circle cx="105" cy="75" r="4.15"/><circle cx="105" cy="85" r="4.15"/></g><g style="--c:12"><circle cx="125" cy="35" r="4.15"/><circle cx="125" cy="45" r="4.15"/><circle cx="125" cy="55" r="4.15"/><circle cx="125" cy="65" r="4.15"/><circle cx="125" cy="75" r="4.15"/></g><g style="--c:13"><circle cx="135" cy="85" r="4.15"/></g><g style="--c:14"><circle cx="145" cy="85" r="4.15"/></g><g style="--c:15"><circle cx="155" cy="85" r="4.15"/></g><g style="--c:16"><circle cx="165" cy="35" r="4.15"/><circle cx="165" cy="45" r="4.15"/><circle cx="165" cy="55" r="4.15"/><circle cx="165" cy="65" r="4.15"/><circle cx="165" cy="75" r="4.15"/><circle cx="165" cy="85" r="4.15"/></g><g style="--c:18"><circle cx="185" cy="35" r="4.15"/></g><g style="--c:19"><circle cx="195" cy="15" r="4.15"/><circle cx="195" cy="25" r="4.15"/><circle cx="195" cy="35" r="4.15"/><circle cx="195" cy="45" r="4.15"/><circle cx="195" cy="55" r="4.15"/><circle cx="195" cy="65" r="4.15"/><circle cx="195" cy="75" r="4.15"/></g><g style="--c:20"><circle cx="205" cy="35" r="4.15"/><circle cx="205" cy="85" r="4.15"/></g><g style="--c:21"><circle cx="215" cy="35" r="4.15"/><circle cx="215" cy="85" r="4.15"/></g><g style="--c:23"><circle cx="235" cy="45" r="4.15"/><circle cx="235" cy="55" r="4.15"/><circle cx="235" cy="65" r="4.15"/><circle cx="235" cy="75" r="4.15"/></g><g style="--c:24"><circle cx="245" cy="35" r="4.15"/><circle cx="245" cy="85" r="4.15"/></g><g style="--c:25"><circle cx="255" cy="35" r="4.15"/><circle cx="255" cy="85" r="4.15"/></g><g style="--c:26"><circle cx="265" cy="35" r="4.15"/><circle cx="265" cy="85" r="4.15"/></g><g style="--c:27"><circle cx="275" cy="35" r="4.15"/><circle cx="275" cy="45" r="4.15"/><circle cx="275" cy="55" r="4.15"/><circle cx="275" cy="65" r="4.15"/><circle cx="275" cy="75" r="4.15"/><circle cx="275" cy="85" r="4.15"/></g></g></svg></a>
+    <nav class="nav" aria-label="On this page">
+      <a href="#how">How it works</a>
+      <a href="#venice">Venice</a>
+      <a href="#try">Try it</a>
+      <a href="#setup">Setup</a>
+    </nav>
+    <a class="top__gh" href="https://github.com/usebauta/bauta">GitHub<svg class="ext" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg></a>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="stage" data-stage aria-hidden="true"></div>
+    <div class="wrap hero__in">
+      <div class="hero__text">
+        <h1 class="hero__mark" id="hero-title"><span class="sr">Bauta</span><svg class="wm wm--hero" viewBox="0 0 280 90" aria-hidden="true" focusable="false"><defs><radialGradient id="wm-stud-hero" cx=".36" cy=".32" r=".72"><stop offset="0" stop-color="#fff6de"/><stop offset=".42" stop-color="#ecca86"/><stop offset="1" stop-color="#a5762f"/></radialGradient><pattern id="wm-grid-hero" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="2.5" fill="#ece7dc" fill-opacity=".075"/></pattern></defs><rect class="wm-grid" width="280" height="90" fill="url(#wm-grid-hero)"/><g class="wm-lit" fill="url(#wm-stud-hero)"><g style="--c:0"><circle cx="5" cy="5" r="3.75"/><circle cx="5" cy="15" r="3.75"/><circle cx="5" cy="25" r="3.75"/><circle cx="5" cy="35" r="3.75"/><circle cx="5" cy="45" r="3.75"/><circle cx="5" cy="55" r="3.75"/><circle cx="5" cy="65" r="3.75"/><circle cx="5" cy="75" r="3.75"/><circle cx="5" cy="85" r="3.75"/></g><g style="--c:1"><circle cx="15" cy="35" r="3.75"/><circle cx="15" cy="85" r="3.75"/></g><g style="--c:2"><circle cx="25" cy="35" r="3.75"/><circle cx="25" cy="85" r="3.75"/></g><g style="--c:3"><circle cx="35" cy="35" r="3.75"/><circle cx="35" cy="85" r="3.75"/></g><g style="--c:4"><circle cx="45" cy="45" r="3.75"/><circle cx="45" cy="55" r="3.75"/><circle cx="45" cy="65" r="3.75"/><circle cx="45" cy="75" r="3.75"/></g><g style="--c:6"><circle cx="65" cy="45" r="3.75"/><circle cx="65" cy="55" r="3.75"/><circle cx="65" cy="65" r="3.75"/><circle cx="65" cy="75" r="3.75"/></g><g style="--c:7"><circle cx="75" cy="35" r="3.75"/><circle cx="75" cy="85" r="3.75"/></g><g style="--c:8"><circle cx="85" cy="35" r="3.75"/><circle cx="85" cy="85" r="3.75"/></g><g style="--c:9"><circle cx="95" cy="35" r="3.75"/><circle cx="95" cy="85" r="3.75"/></g><g style="--c:10"><circle cx="105" cy="35" r="3.75"/><circle cx="105" cy="45" r="3.75"/><circle cx="105" cy="55" r="3.75"/><circle cx="105" cy="65" r="3.75"/><circle cx="105" cy="75" r="3.75"/><circle cx="105" cy="85" r="3.75"/></g><g style="--c:12"><circle cx="125" cy="35" r="3.75"/><circle cx="125" cy="45" r="3.75"/><circle cx="125" cy="55" r="3.75"/><circle cx="125" cy="65" r="3.75"/><circle cx="125" cy="75" r="3.75"/></g><g style="--c:13"><circle cx="135" cy="85" r="3.75"/></g><g style="--c:14"><circle cx="145" cy="85" r="3.75"/></g><g style="--c:15"><circle cx="155" cy="85" r="3.75"/></g><g style="--c:16"><circle cx="165" cy="35" r="3.75"/><circle cx="165" cy="45" r="3.75"/><circle cx="165" cy="55" r="3.75"/><circle cx="165" cy="65" r="3.75"/><circle cx="165" cy="75" r="3.75"/><circle cx="165" cy="85" r="3.75"/></g><g style="--c:18"><circle cx="185" cy="35" r="3.75"/></g><g style="--c:19"><circle cx="195" cy="15" r="3.75"/><circle cx="195" cy="25" r="3.75"/><circle cx="195" cy="35" r="3.75"/><circle cx="195" cy="45" r="3.75"/><circle cx="195" cy="55" r="3.75"/><circle cx="195" cy="65" r="3.75"/><circle cx="195" cy="75" r="3.75"/></g><g style="--c:20"><circle cx="205" cy="35" r="3.75"/><circle cx="205" cy="85" r="3.75"/></g><g style="--c:21"><circle cx="215" cy="35" r="3.75"/><circle cx="215" cy="85" r="3.75"/></g><g style="--c:23"><circle cx="235" cy="45" r="3.75"/><circle cx="235" cy="55" r="3.75"/><circle cx="235" cy="65" r="3.75"/><circle cx="235" cy="75" r="3.75"/></g><g style="--c:24"><circle cx="245" cy="35" r="3.75"/><circle cx="245" cy="85" r="3.75"/></g><g style="--c:25"><circle cx="255" cy="35" r="3.75"/><circle cx="255" cy="85" r="3.75"/></g><g style="--c:26"><circle cx="265" cy="35" r="3.75"/><circle cx="265" cy="85" r="3.75"/></g><g style="--c:27"><circle cx="275" cy="35" r="3.75"/><circle cx="275" cy="45" r="3.75"/><circle cx="275" cy="55" r="3.75"/><circle cx="275" cy="65" r="3.75"/><circle cx="275" cy="75" r="3.75"/><circle cx="275" cy="85" r="3.75"/></g></g></svg></h1>
+        <p class="hero__tag rise" style="--r:0">Your agent wears a mask.</p>
+        <p class="hero__lede rise" style="--r:1">Bauta is a small proxy that runs on your computer, between your coding agent and the model. Your keys and personal details stay on your machine, and when your provider says you’ve hit the limit, your agent keeps going on a private model.</p>
+        <div class="hero__cta rise" style="--r:2">
+          <a class="btn btn--solid" href="https://github.com/usebauta/bauta">View on GitHub<svg class="ext" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg></a>
+          <a class="btn btn--line" href="#try">Try it in your browser</a>
+        </div>
+        <p class="hero__meta rise" style="--r:3"><span>free &amp; open source</span> · <span>MIT</span> · <span>zero dependencies</span> · <span>runs on 127.0.0.1</span></p>
+        <p class="hero__count" data-counter aria-hidden="true" hidden><span class="dia"></span><span class="hero__n">0</span> <span class="hero__unit">values</span> masked on this screen</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec how" id="how" aria-labelledby="how-h">
+    <div class="wrap">
+      <h2 class="led" id="how-h">Your provider sees the work, not the keys</h2>
+      <p class="sec__lede">Coding agents read everything they can reach: your .env, your config, the client email you pasted in. Bauta reads each request first. It swaps anything that looks like a secret for a placeholder, sends the masked version on, and puts the real values back when the answer comes in.</p>
+
+      <ul class="cards" role="list">
+        <li class="card" style="--i:0" data-reveal>
+          <div class="card__art"><img src="assets/obj-mask.svg" width="500" height="320" alt="" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <h3 class="card__title">Masked on your machine</h3>
+            <p class="card__text">API keys, tokens, database passwords, emails, phone and card numbers become placeholders like <code class="ph">[[BAUTA_SECRET_1]]</code>. The same value always gets the same one.</p>
+            <p class="card__foot">[[BAUTA_SECRET_1]] · [[BAUTA_EMAIL_1]]</p>
+          </div>
+        </li>
+        <li class="card" style="--i:1" data-reveal>
+          <div class="card__art"><img src="assets/obj-letter.svg" width="500" height="320" alt="" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <h3 class="card__title">Sent to your provider</h3>
+            <p class="card__text">The masked request goes to Anthropic, or to OpenAI if you set it up, with your own login passed straight through. Bauta never needs those keys.</p>
+            <p class="card__foot">Claude Code · OpenAI-compatible tools</p>
+          </div>
+        </li>
+        <li class="card" style="--i:2" data-reveal>
+          <div class="card__art"><img src="assets/obj-lantern.svg" width="500" height="320" alt="" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <h3 class="card__title">Venice when you hit a limit</h3>
+            <p class="card__text">On a 429, a 529 or a server error, the same masked request goes to a private model on Venice, and your agent carries on.</p>
+            <p class="card__foot">deepseek-v4-1-flash by default</p>
+          </div>
+        </li>
+        <li class="card" style="--i:3" data-reveal>
+          <div class="card__art"><img src="assets/obj-key.svg" width="500" height="320" alt="" loading="lazy" decoding="async"></div>
+          <div class="card__body">
+            <h3 class="card__title">Restored on the way back</h3>
+            <p class="card__text">As the answer streams in, Bauta puts the real values back, tool calls included, so a config file your agent writes has the real key.</p>
+            <p class="card__foot">the vault lives in memory</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band" id="venice" aria-labelledby="venice-h">
+    <div class="band__art" aria-hidden="true"><img src="assets/venice.svg" width="2400" height="900" alt="" loading="lazy" decoding="async"></div>
+    <div class="wrap band__in">
+      <div class="band__text">
+        <h2 class="led" id="venice-h">Never stuck at a limit</h2>
+        <p>When your provider runs out or falls over, Bauta sends the same masked request to Venice and translates between Anthropic’s format and OpenAI’s on the way, tool calls and streaming included. To your agent it’s just another answer.</p>
+        <p>Venice <a href="https://docs.venice.ai/overview/privacy">says it keeps no prompts or responses</a>. If you’d rather Bauta sent nothing to Anthropic, private mode sends every model request to Venice. You only need a Venice key for this part. Masking works without one.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec try" id="try" aria-labelledby="try-h">
+    <div class="wrap">
+      <h2 class="led" id="try-h">Try it on a fake .env</h2>
+      <p class="sec__lede">This box runs Bauta’s own scanner right here in the page. Change a value and watch what your provider would get instead. Nothing leaves your browser.</p>
+      <div class="try__frame" data-reveal>
+        <div class="bauta-demo" data-demo></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec setup" id="setup" aria-labelledby="setup-h">
+    <div class="wrap setup__grid">
+      <div class="setup__start">
+        <h2 class="led" id="setup-h">Two lines to start</h2>
+        <p class="sec__lede">You need Node.js 18.17 or newer. Start Bauta in one terminal, then Claude Code through it in another.</p>
+
+        <div class="cmds" data-tabs data-tabs-label="Your shell" data-reveal>
+          <div class="cmds__bar"><span class="cmds__title">Two terminals</span></div>
+          <div class="cmds__panel" id="cmds-ps" data-tab="PowerShell">
+            <h3 class="cmds__os">Windows PowerShell</h3>
+            <p class="cmd__step"><span class="cmd__n">1</span>Start Bauta</p>
+            <div class="cmd"><code class="cmd__code" id="cmd-ps-1">$env:VENICE_API_KEY="your-venice-key"; npx github:usebauta/bauta</code><button class="copy" type="button" data-copy="cmd-ps-1"><svg aria-hidden="true" focusable="false"><use href="#i-copy"/></svg><span class="copy__label">Copy</span></button></div>
+            <p class="cmd__step"><span class="cmd__n">2</span>Then Claude Code, in a second terminal</p>
+            <div class="cmd"><code class="cmd__code" id="cmd-ps-2">$env:ANTHROPIC_BASE_URL="http://127.0.0.1:8787"; claude</code><button class="copy" type="button" data-copy="cmd-ps-2"><svg aria-hidden="true" focusable="false"><use href="#i-copy"/></svg><span class="copy__label">Copy</span></button></div>
+          </div>
+          <div class="cmds__panel" id="cmds-sh" data-tab="macOS / Linux">
+            <h3 class="cmds__os">macOS / Linux</h3>
+            <p class="cmd__step"><span class="cmd__n">1</span>Start Bauta</p>
+            <div class="cmd"><code class="cmd__code" id="cmd-sh-1">VENICE_API_KEY=your-venice-key npx github:usebauta/bauta</code><button class="copy" type="button" data-copy="cmd-sh-1"><svg aria-hidden="true" focusable="false"><use href="#i-copy"/></svg><span class="copy__label">Copy</span></button></div>
+            <p class="cmd__step"><span class="cmd__n">2</span>Then Claude Code, in a second terminal</p>
+            <div class="cmd"><code class="cmd__code" id="cmd-sh-2">ANTHROPIC_BASE_URL=http://127.0.0.1:8787 claude</code><button class="copy" type="button" data-copy="cmd-sh-2"><svg aria-hidden="true" focusable="false"><use href="#i-copy"/></svg><span class="copy__label">Copy</span></button></div>
+          </div>
+        </div>
+
+        <p class="setup__after">Then open <code>http://127.0.0.1:8787</code> to watch requests go by. Other agents on your computer, like Cline or aider, connect as an OpenAI-compatible tool at <code>http://127.0.0.1:8787/v1</code>.</p>
+        <p><a class="more" href="https://github.com/usebauta/bauta#readme">Read the README<svg class="ext" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg></a></p>
+      </div>
+
+      <div class="faq">
+        <h3 class="faq__h" id="faq-h">Questions</h3>
+        <details class="qa">
+          <summary>Which agents does it work with?<span class="qa__x" aria-hidden="true"></span></summary>
+          <div class="qa__a"><p>Claude Code, and anything on your computer that speaks the OpenAI chat format: Cline, aider, Continue and others. Cursor calls models from its own servers, so it can’t go through Bauta.</p></div>
+        </details>
+        <details class="qa">
+          <summary>What exactly gets masked?<span class="qa__x" aria-hidden="true"></span></summary>
+          <div class="qa__a"><p>Keys from OpenAI, Anthropic, Google, Stripe, AWS, GitHub and Slack, JWTs and Bearer tokens, private key blocks, passwords in database URLs, <code>.env</code> values named like <code>*_SECRET</code> or <code>*_TOKEN</code>, wallet seed phrases and private keys. Also emails, international phone numbers, card numbers that pass the Luhn check, and any names you list in <code>BAUTA_TERMS</code>.</p></div>
+        </details>
+        <details class="qa">
+          <summary>Is anything stored or sent anywhere else?<span class="qa__x" aria-hidden="true"></span></summary>
+          <div class="qa__a"><p>No. Bauta listens only on <code>127.0.0.1</code>, keeps no content logs, sends no telemetry, and the secret vault lives in memory until you stop it. Your Anthropic or OpenAI login goes only to that provider, never to Venice.</p></div>
+        </details>
+        <details class="qa">
+          <summary>What happens when I hit a limit?<span class="qa__x" aria-hidden="true"></span></summary>
+          <div class="qa__a"><p>On a 429, 500, 502, 503, 504 or 529, or when the provider can’t be reached, Bauta sends the same masked request to Venice. The log line marks it as a fallback.</p></div>
+        </details>
+        <details class="qa">
+          <summary>Do I need a Venice key?<span class="qa__x" aria-hidden="true"></span></summary>
+          <div class="qa__a"><p>Only for the fallback and private mode. Masking works without one. Bauta reads the key from your environment, never from a file.</p></div>
+        </details>
+        <details class="qa">
+          <summary>What doesn’t it protect against?<span class="qa__x" aria-hidden="true"></span></summary>
+          <div class="qa__a"><p>Secrets in formats it doesn’t recognize, until you add them as terms. Anything your agent does outside Bauta, like running shell commands. And tasks that need a secret’s real value, because the model only ever sees the placeholder. Run <code>bauta scan</code> on a file to see what it catches.</p></div>
+        </details>
+        <details class="qa">
+          <summary>Is there a Bauta token?<span class="qa__x" aria-hidden="true"></span></summary>
+          <div class="qa__a"><p>No. Bauta is a free, MIT-licensed program with no token of its own.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <a class="foot__mark" href="#top" aria-label="Bauta, back to top" data-reveal><svg class="wm wm--foot" viewBox="0 0 280 90" aria-hidden="true" focusable="false"><defs><radialGradient id="wm-stud-foot" cx=".36" cy=".32" r=".72"><stop offset="0" stop-color="#fff6de"/><stop offset=".42" stop-color="#ecca86"/><stop offset="1" stop-color="#a5762f"/></radialGradient><pattern id="wm-grid-foot" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="2.5" fill="#ece7dc" fill-opacity=".075"/></pattern></defs><rect class="wm-grid" width="280" height="90" fill="url(#wm-grid-foot)"/><g class="wm-lit" fill="url(#wm-stud-foot)"><g style="--c:0"><circle cx="5" cy="5" r="3.75"/><circle cx="5" cy="15" r="3.75"/><circle cx="5" cy="25" r="3.75"/><circle cx="5" cy="35" r="3.75"/><circle cx="5" cy="45" r="3.75"/><circle cx="5" cy="55" r="3.75"/><circle cx="5" cy="65" r="3.75"/><circle cx="5" cy="75" r="3.75"/><circle cx="5" cy="85" r="3.75"/></g><g style="--c:1"><circle cx="15" cy="35" r="3.75"/><circle cx="15" cy="85" r="3.75"/></g><g style="--c:2"><circle cx="25" cy="35" r="3.75"/><circle cx="25" cy="85" r="3.75"/></g><g style="--c:3"><circle cx="35" cy="35" r="3.75"/><circle cx="35" cy="85" r="3.75"/></g><g style="--c:4"><circle cx="45" cy="45" r="3.75"/><circle cx="45" cy="55" r="3.75"/><circle cx="45" cy="65" r="3.75"/><circle cx="45" cy="75" r="3.75"/></g><g style="--c:6"><circle cx="65" cy="45" r="3.75"/><circle cx="65" cy="55" r="3.75"/><circle cx="65" cy="65" r="3.75"/><circle cx="65" cy="75" r="3.75"/></g><g style="--c:7"><circle cx="75" cy="35" r="3.75"/><circle cx="75" cy="85" r="3.75"/></g><g style="--c:8"><circle cx="85" cy="35" r="3.75"/><circle cx="85" cy="85" r="3.75"/></g><g style="--c:9"><circle cx="95" cy="35" r="3.75"/><circle cx="95" cy="85" r="3.75"/></g><g style="--c:10"><circle cx="105" cy="35" r="3.75"/><circle cx="105" cy="45" r="3.75"/><circle cx="105" cy="55" r="3.75"/><circle cx="105" cy="65" r="3.75"/><circle cx="105" cy="75" r="3.75"/><circle cx="105" cy="85" r="3.75"/></g><g style="--c:12"><circle cx="125" cy="35" r="3.75"/><circle cx="125" cy="45" r="3.75"/><circle cx="125" cy="55" r="3.75"/><circle cx="125" cy="65" r="3.75"/><circle cx="125" cy="75" r="3.75"/></g><g style="--c:13"><circle cx="135" cy="85" r="3.75"/></g><g style="--c:14"><circle cx="145" cy="85" r="3.75"/></g><g style="--c:15"><circle cx="155" cy="85" r="3.75"/></g><g style="--c:16"><circle cx="165" cy="35" r="3.75"/><circle cx="165" cy="45" r="3.75"/><circle cx="165" cy="55" r="3.75"/><circle cx="165" cy="65" r="3.75"/><circle cx="165" cy="75" r="3.75"/><circle cx="165" cy="85" r="3.75"/></g><g style="--c:18"><circle cx="185" cy="35" r="3.75"/></g><g style="--c:19"><circle cx="195" cy="15" r="3.75"/><circle cx="195" cy="25" r="3.75"/><circle cx="195" cy="35" r="3.75"/><circle cx="195" cy="45" r="3.75"/><circle cx="195" cy="55" r="3.75"/><circle cx="195" cy="65" r="3.75"/><circle cx="195" cy="75" r="3.75"/></g><g style="--c:20"><circle cx="205" cy="35" r="3.75"/><circle cx="205" cy="85" r="3.75"/></g><g style="--c:21"><circle cx="215" cy="35" r="3.75"/><circle cx="215" cy="85" r="3.75"/></g><g style="--c:23"><circle cx="235" cy="45" r="3.75"/><circle cx="235" cy="55" r="3.75"/><circle cx="235" cy="65" r="3.75"/><circle cx="235" cy="75" r="3.75"/></g><g style="--c:24"><circle cx="245" cy="35" r="3.75"/><circle cx="245" cy="85" r="3.75"/></g><g style="--c:25"><circle cx="255" cy="35" r="3.75"/><circle cx="255" cy="85" r="3.75"/></g><g style="--c:26"><circle cx="265" cy="35" r="3.75"/><circle cx="265" cy="85" r="3.75"/></g><g style="--c:27"><circle cx="275" cy="35" r="3.75"/><circle cx="275" cy="45" r="3.75"/><circle cx="275" cy="55" r="3.75"/><circle cx="275" cy="65" r="3.75"/><circle cx="275" cy="75" r="3.75"/><circle cx="275" cy="85" r="3.75"/></g></g></svg></a>
+    <div class="foot__grid">
+      <div class="foot__text">
+        <p class="foot__legal">Bauta is an independent open-source project, MIT licensed. Not affiliated with or endorsed by Anthropic, OpenAI or Venice.</p>
+        <p class="foot__credits">Private open models through the <a href="https://docs.venice.ai">Venice API</a>. The local-router idea comes from <a href="https://github.com/musistudio/claude-code-router">claude-code-router</a>. Secret patterns borrow from open-source scanners like gitleaks.</p>
+        <p class="foot__local"><svg aria-hidden="true" focusable="false"><use href="#i-check"/></svg>This page loads nothing from other sites.</p>
+      </div>
+      <nav class="foot__links" aria-label="Footer">
+        <a href="#how">How it works</a>
+        <a href="#venice">Venice</a>
+        <a href="#try">Try it</a>
+        <a href="#setup">Setup</a>
+        <a href="https://github.com/usebauta/bauta">GitHub<svg class="ext" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg></a>
+      </nav>
+    </div>
+  </div>
+</footer>
+<p class="sr" aria-live="polite" id="live"></p>
+</body>
+</html>
